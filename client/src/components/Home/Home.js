@@ -3,18 +3,19 @@ import './Home.css';
 import { Link } from "react-router-dom";
 
 function Home() {
-    const [connected, setConnected] = useState(false);
+    // const [connected, setConnected] = useState([]);
     const [titles, setTitles] = useState([]);
 
-    useEffect(() => {
-        const fetchConnectedData = async () => {
-            fetch('/express/connected')
-            .then(res => setConnected(res))
-            .then(console.log('fetched /express/connected'));
-        }
+    // useEffect(() => {
+    //     const fetchConnectedData = async () => {
+    //         fetch('/express/connected')
+    //             .then(res => res.json())
+    //             .then(res => setConnected(res.values))
+    //             .then(console.log('fetched /express/connected'));
+    //     }
 
-        fetchConnectedData();
-    }, []);
+    //     fetchConnectedData();
+    // }, [connected[0]]);
 
     useEffect(() => {
         const fetchTitlesData = async () => {
@@ -27,19 +28,28 @@ function Home() {
         fetchTitlesData();
     }, []);
 
+    // function isConnected() {
+    //     console.log('in isConnected', connected);
+    //     if (connected[0]) {
+    //         connected[0] = false;
+    //     } else {
+    //         return 'not';
+    //     }
+    // }
+
     return (
         <div className="Body">
-            <h2>Backend is {connected ? '' : 'not'} connected</h2>
+            {/* <h2>Backend is {isConnected()} connected{console.log('connected is ', connected)}</h2> */}
             <h2>Featured:</h2>
             <ul>
                 {
                     titles !== undefined &&
                     titles.length >= 0 &&
-                    titles.map(title => {
+                    titles.map(series => {
                         return (
-                            <li key={title.id}>
-                                <Link to={'/series/' + title.id}>
-                                    {title.title}
+                            <li key={series.id}>
+                                <Link to={'/series/' + series.id}>
+                                    {series.title}
                                 </Link>
                             </li>
                         );

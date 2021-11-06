@@ -7,17 +7,28 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Series from './components/Series/Series';
+import Login from './components/Login/Login';
+import NotFound from './components/NotFound/NotFound';
 
 ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Header />
             <Switch>
+                {/* <Route path="/register">
+                    
+                </Route>
+                <Route path="/login">
+                    <Login />
+                </Route> */}
                 <Route path="/series/:id">
                     <Series />
                 </Route>
-                <Route path="/">
+                <Route exact path="/">
                     <Home />
+                </Route>
+                <Route>
+                    <NotFound />
                 </Route>
             </Switch>
             <Footer />
