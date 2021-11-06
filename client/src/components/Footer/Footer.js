@@ -23,7 +23,8 @@ function Footer() {
                     streams.length >= 0 &&
                     streams.map(stream => {
                         return (
-                            <li><a 
+                            <li key={stream.name}>
+                                <a 
                                     href={stream.href}
                                     target="_blank"
                                     rel="noopener noreferrer"

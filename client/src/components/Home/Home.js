@@ -3,14 +3,27 @@ import './Home.css';
 
 function Home() {
     const [connected, setConnected] = useState(false);
+    const [titles, setTitles] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchConnectedData = async () => {
             fetch('/express/connected')
             .then(res => setConnected(res))
             .then(console.log('fetched /express/connected'));
         }
-        fetchData();
+
+        fetchConnectedData();
+    }, []);
+
+    useEffect(() => {
+        const fetchTitlesData = async () => {
+            fetch('/express/titles')
+                .then(res => res.json())
+                .then(res => setTitles(res));
+            console.log(titles);
+        }
+
+        fetchTitlesData();
     }, []);
 
     return (
@@ -19,9 +32,13 @@ function Home() {
             <p>React version {React.version}</p>
             <h2>Featured:</h2>
             <ul>
-                <li>Mushoku Tensei</li>
-                <li>Steins; Gate</li>
-                <li>Overlord</li>
+                {
+                    titles !== undefined &&
+                    titles.length >= 0 &&
+                    titles.map(title => {
+                        return <li key={title.id}>{title.title}</li>
+                    })
+                }
             </ul>
         </div>
     );
