@@ -20,8 +20,8 @@ function Enter(props) {
     } else {
         return (
             <div className="Enter">
-                <Link to="/login">Sign in</Link>
-                <Link to="/auth">Sign up</Link>
+                <Link to="/login" className="Login">Sign in</Link>
+                <Link to="/register" className="Register">Sign up</Link>
             </div>
         );
     }

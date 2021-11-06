@@ -16,6 +16,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "e2e": "cd playwright && jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -38,6 +39,8 @@
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {
+    "@playwright/test": "^1.16.3",
+    "playwright": "^1.16.3",
     "web-vitals": "^2.1.2"
   }
 }
