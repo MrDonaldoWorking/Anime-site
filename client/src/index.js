@@ -5,12 +5,23 @@ import Home from './components/Home/Home';
 import reportWebVitals from './reportWebVitals';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Series from './components/Series/Series';
 
 ReactDOM.render(
     <React.StrictMode>
-        <Header />
-        <Home />
-        <Footer />
+        <Router>
+            <Header />
+            <Switch>
+                <Route path="/series/:id">
+                    <Series />
+                </Route>
+                <Route path="/">
+                    <Home />
+                </Route>
+            </Switch>
+            <Footer />
+        </Router>
     </React.StrictMode>,
     document.getElementById('root')
 );

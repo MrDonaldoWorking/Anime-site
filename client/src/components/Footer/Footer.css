@@ -11,6 +11,14 @@
   color: white;
 }
 
+.React-info,
+.Streaming-services {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex-direction: row;
+}
+
 p {
   font-size: 1.3rem;
   margin: 0.1rem;
@@ -26,4 +34,24 @@ ul {
 
 li {
   font-size: 1.2rem;
+}
+
+.App-logo {
+  height: 30px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

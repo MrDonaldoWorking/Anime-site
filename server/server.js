@@ -41,3 +41,7 @@ app.get('/express/titles', (req, res) => {
         return { 'id': anime.id, 'title': anime.title };
     }));
 });
+
+app.get('/express/series/:id(\\d+)', function (req, res) {
+    res.send(animes[req.params.id]);
+});

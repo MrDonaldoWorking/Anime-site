@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Home.css';
+import { Link } from "react-router-dom";
 
 function Home() {
     const [connected, setConnected] = useState(false);
@@ -29,14 +30,19 @@ function Home() {
     return (
         <div className="Body">
             <h2>Backend is {connected ? '' : 'not'} connected</h2>
-            <p>React version {React.version}</p>
             <h2>Featured:</h2>
             <ul>
                 {
                     titles !== undefined &&
                     titles.length >= 0 &&
                     titles.map(title => {
-                        return <li key={title.id}>{title.title}</li>
+                        return (
+                            <li key={title.id}>
+                                <Link to={'/series/' + title.id}>
+                                    {title.title}
+                                </Link>
+                            </li>
+                        );
                     })
                 }
             </ul>

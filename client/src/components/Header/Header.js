@@ -1,12 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './Header.css';
+import { Link } from "react-router-dom";
 
 function Header() {
     return (
         <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>This is a header!</p>
+            <Link to="/" className="Home-button">&#8962;</Link>
         </header>
     );
 }
