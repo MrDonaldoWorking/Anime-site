@@ -1,4 +1,8 @@
-## ITMO Software Testing course
+# Run
 
-* __HW 1__ [branch](https://github.com/MrDonaldoWorking/Anime-site/tree/HW1)
-* __HW 2__ [branch](https://github.com/MrDonaldoWorking/Anime-site/tree/HW2)
+## Client
+* `cd client`
+* `npm start`
+
+## Server
+* __In progress__
