@@ -9,18 +9,19 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Series from './components/Series/Series';
 import Login from './components/Login/Login';
 import NotFound from './components/NotFound/NotFound';
+import Register from './components/Register/Register'
 
 ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Header />
             <Switch>
-                {/* <Route path="/register">
-                    
+                <Route path="/register">
+                    <Register />
                 </Route>
                 <Route path="/login">
                     <Login />
-                </Route> */}
+                </Route>
                 <Route path="/series/:id">
                     <Series />
                 </Route>

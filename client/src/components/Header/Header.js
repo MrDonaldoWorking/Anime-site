@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component } from "react";
 import './Header.css';
 import { Link } from "react-router-dom";
 
+import EventBus from "../../payload/event-bus"
+import SessionService from '../../service/session.service';
+
 function CurrentUser(props) {
-    if (props.user.id !== undefined) {
+    if (props.user) {
         return <p className="User">{props.user.name}</p>;
     } else {
         return <p className="User">Guest</p>;
@@ -11,10 +14,10 @@ function CurrentUser(props) {
 }
 
 function Enter(props) {
-    if (props.user.id !== undefined) {
+    if (props.user) {
         return (
             <div className="Enter">
-                <Link>Sign out</Link>
+                <Link to="/login">Sign out</Link>
             </div>
         );
     } else {
@@ -27,27 +30,57 @@ function Enter(props) {
     }
 }
 
-function Header() {
-    const [user, setUser] = useState({});
+class Header extends Component {
+    constructor (props) {
+        super(props);
+        this.logOut = this.logOut.bind(this);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            fetch('/express/user')
-                .then(res => res.json())
-                .then(res => setUser(res));
+        this.state = {
+            showAdminBoard: false,
+            CurrentUser: undefined
+        };
+    }
+
+    componentDidMount() {
+        const user = SessionService.getCurrentUser();
+
+        if (user) {
+            this.setState({
+                currentUser: user,
+                showAdminBoard: user.roles.includes("ROLE_ADMIN")
+            });
         }
-        fetchUserData();
-    }, []);
 
-    return (
-        <header className="App-header">
-            <CurrentUser user={user} />
-            <Link to="/" className="Home-button">
-                <span role="img" aria-label="home">&#127968;</span>
-            </Link>
-            <Enter user={user} />
-        </header>
-    );
+        EventBus.on("logout", () => {
+            this.logOut();
+        });
+    }
+
+    componentWillUnmount() {
+        EventBus.remove("logout");
+    }
+
+    logOut() {
+        SessionService.logout();
+        this.setState({
+            showAdminBoard: false,
+            currentUser: undefined
+        });
+    }
+
+    render() {
+        const { currentUser, showAdminBoard } = this.state;
+
+        return (
+            <header className="App-header">
+                <CurrentUser user={currentUser} />
+                <Link to="/" className="Home-button">
+                    <span role="img" aria-label="home">&#127968;</span>
+                </Link>
+                <Enter user={currentUser} />
+            </header>
+        );
+    }
 }
 
 export default Header;
