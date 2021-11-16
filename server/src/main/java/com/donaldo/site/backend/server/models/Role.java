@@ -21,6 +21,11 @@ public class Role {
         this.name = name;
     }
 
+    public Role(final int id, final ERole name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

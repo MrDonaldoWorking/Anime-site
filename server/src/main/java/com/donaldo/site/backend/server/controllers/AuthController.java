@@ -37,11 +37,8 @@ import java.util.stream.Collectors;
 public class AuthController {
     final AuthenticationManager authenticationManager;
     final UserRepository userRepository;
-
     final RoleRepository roleRepository;
-
     final PasswordEncoder encoder;
-
     final JwtUtils jwtUtils;
 
     public AuthController(final AuthenticationManager authenticationManager,
@@ -67,6 +64,7 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
 
+        System.out.println("Logged in user: " + loginRequest.getUsername());
         return ResponseEntity.ok(new JwtResponse(jwt,
                                                  userDetails.getId(), userDetails.getUsername(),
                                                  roles));
