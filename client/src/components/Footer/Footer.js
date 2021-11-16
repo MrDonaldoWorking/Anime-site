@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './Footer.css';
+import AccessService from '../../service/access.service';
 
 function Footer() {
     const [streams, setStreams] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
-            fetch('/express/streams')
-                .then(res => res.json())
-                .then(res => setStreams(res.streams))
-                .then(console.log('fetched /express/streams'));
+            AccessService.getStreams()
+                .then(res => setStreams(res.data))
         }
         fetchData();
     }, []);

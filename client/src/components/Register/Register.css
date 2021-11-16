@@ -10,15 +10,6 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .profile-img-card-r {
-    animation: profile-img-card-spin-r infinite 2s linear;
-  }
-}
-
-@keyframes profile-img-card-spin-r {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
+    animation: profile-img-card-spin 1 250ms ease-in-out reverse;
   }
 }

@@ -9,3 +9,19 @@
 .App-link {
   color: #61dafb;
 }
+
+.instruct {
+  display: flex;
+  flex-direction: column;
+}
+
+.instruct code {
+  display: block;
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: rgba(175, 184, 193, 0.2);
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
+    Liberation Mono, monospace;
+}

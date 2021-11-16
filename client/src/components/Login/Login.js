@@ -49,8 +49,9 @@ class Login extends Component {
         if (this.checkBtn.context._errors.length === 0) {
             SessionService.login(this.state.username, this.state.password).then(
                 () => {
-                    this.props.history.push("/profile");
-                    window.location.reload();
+                    // this.props.history.push("/profile");
+                    // window.location.reload();
+                    window.location = "/profile";
                 },
                 error => {
                     const resMessage = (
@@ -59,6 +60,8 @@ class Login extends Component {
                         error.response.data.message
                     ) || error.message
                     || error.toString();
+                    console.log("error is", error);
+                    console.log("error type = ", typeof(error));
 
                     this.setState({
                         loading: false,

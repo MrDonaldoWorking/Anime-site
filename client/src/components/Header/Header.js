@@ -4,10 +4,16 @@ import { Link } from "react-router-dom";
 
 import EventBus from "../../payload/event-bus"
 import SessionService from '../../service/session.service';
+// import AuthVerify from '../../payload/auth-verify'
 
 function CurrentUser(props) {
+    console.log("user is", props.user);
     if (props.user) {
-        return <p className="User">{props.user.name}</p>;
+        return (
+            <div className="Profile">
+                <Link to="/profile">{props.user.username}</Link>
+            </div>
+        );
     } else {
         return <p className="User">Guest</p>;
     }
@@ -17,7 +23,7 @@ function Enter(props) {
     if (props.user) {
         return (
             <div className="Enter">
-                <Link to="/login">Sign out</Link>
+                <Link to="/login" onClick={props.logOut}>Sign out</Link>
             </div>
         );
     } else {
@@ -72,13 +78,16 @@ class Header extends Component {
         const { currentUser, showAdminBoard } = this.state;
 
         return (
-            <header className="App-header">
-                <CurrentUser user={currentUser} />
-                <Link to="/" className="Home-button">
-                    <span role="img" aria-label="home">&#127968;</span>
-                </Link>
-                <Enter user={currentUser} />
-            </header>
+            <>
+                <header className="App-header">
+                    <CurrentUser user={currentUser} />
+                    <Link to="/" className="Home-button">
+                        <span role="img" aria-label="home">&#127968;</span>
+                    </Link>
+                    <Enter user={currentUser} logOut={this.logOut} />
+                </header>
+                {/* <AuthVerify logOut={this.logOut} /> */}
+            </>
         );
     }
 }

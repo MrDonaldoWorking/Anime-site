@@ -90,7 +90,7 @@ label {
 
 @media (prefers-reduced-motion: no-preference) {
   .profile-img-card {
-    animation: profile-img-card-spin infinite 2s linear;
+    animation: profile-img-card-spin 1 500ms ease;
   }
 }
 
