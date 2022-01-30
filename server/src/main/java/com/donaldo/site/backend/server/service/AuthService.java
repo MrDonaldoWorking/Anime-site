@@ -1,6 +1,5 @@
 package com.donaldo.site.backend.server.service;
 
-import com.donaldo.site.backend.server.config.Session;
 import com.donaldo.site.backend.server.models.ERole;
 import com.donaldo.site.backend.server.models.Role;
 import com.donaldo.site.backend.server.models.User;
@@ -10,11 +9,8 @@ import com.donaldo.site.backend.server.repository.RoleRepository;
 import com.donaldo.site.backend.server.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class AuthService {

@@ -1,6 +1,5 @@
 package com.donaldo.site.backend.server.service;
 
-import com.donaldo.site.backend.server.config.Session;
 import com.donaldo.site.backend.server.models.*;
 import com.donaldo.site.backend.server.models.projections.IdAndTitle;
 import com.donaldo.site.backend.server.payload.request.AccessRequest;
@@ -10,8 +9,6 @@ import com.donaldo.site.backend.server.repository.TitlesRepository;
 import com.donaldo.site.backend.server.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Access;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +49,7 @@ public class TestService {
     public String admin(final AccessRequest accessRequest) {
         final User user = getCurrentUser(accessRequest);
         final Role admin = roleRepository.findByName(ERole.ROLE_ADMIN).orElseThrow();
-        if (user.getRoles().contains(admin)) {
+        if (user != null && user.getRoles().contains(admin)) {
             return "Admin Board.";
         } else {
             return "Forbidden.";

@@ -1,15 +1,12 @@
 package com.donaldo.site.backend.server.controllers;
 
-import com.donaldo.site.backend.server.config.Session;
 import com.donaldo.site.backend.server.models.Streams;
 import com.donaldo.site.backend.server.models.Titles;
-import com.donaldo.site.backend.server.models.User;
 import com.donaldo.site.backend.server.models.projections.IdAndTitle;
 import com.donaldo.site.backend.server.payload.request.AccessRequest;
 import com.donaldo.site.backend.server.service.TestService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
