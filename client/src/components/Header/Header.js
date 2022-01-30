@@ -67,11 +67,14 @@ class Header extends Component {
     }
 
     logOut() {
-        SessionService.logout();
-        this.setState({
-            showAdminBoard: false,
-            currentUser: undefined
-        });
+        if (!SessionService.logout()) {
+            alert("User in front and back differs!");
+        } else {
+            this.setState({
+                showAdminBoard: false,
+                currentUser: undefined
+            });
+        }
     }
 
     render() {

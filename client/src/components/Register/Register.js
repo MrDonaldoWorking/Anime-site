@@ -57,6 +57,8 @@ class Register extends Component {
                     });
                 },
                 error => {
+                    console.log("error:", error);
+                    console.log("Looking for error.response, error.response.data, error.response.data.message || error.message || error.toString()");
                     const resMessage = (
                             error.response &&
                             error.response.data &&
@@ -86,7 +88,7 @@ class Register extends Component {
                     <Form
                         onSubmit={this.handleRegister}
                         ref={c => {
-                        this.form = c;
+                            this.form = c;
                         }}
                     >
                         {!this.state.successful && (

@@ -1,56 +1,56 @@
 package com.donaldo.site.backend.server.controllers;
 
+import com.donaldo.site.backend.server.config.Session;
 import com.donaldo.site.backend.server.models.Streams;
 import com.donaldo.site.backend.server.models.Titles;
+import com.donaldo.site.backend.server.models.User;
 import com.donaldo.site.backend.server.models.projections.IdAndTitle;
-import com.donaldo.site.backend.server.repository.StreamsRepository;
-import com.donaldo.site.backend.server.repository.TitlesRepository;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.donaldo.site.backend.server.payload.request.AccessRequest;
+import com.donaldo.site.backend.server.service.TestService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/spring/test")
 public class TestController {
-    final TitlesRepository titlesRepository;
-    final StreamsRepository streamsRepository;
+    final TestService service;
 
-    public TestController(final TitlesRepository titlesRepository, final StreamsRepository streamsRepository) {
-        this.titlesRepository = titlesRepository;
-        this.streamsRepository = streamsRepository;
+    public TestController(final TestService service) {
+        this.service = service;
     }
 
     @GetMapping("/all")
     public String allAccess() {
-        return "Public Content.";
+        return service.all();
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public String userAccess() {
-        return "User Content.";
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public String userAccess(@Valid @RequestBody AccessRequest accessRequest) {
+        return service.user(accessRequest);
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String adminAccess() {
-        return "Admin Board.";
+//    @PreAuthorize("hasRole('ADMIN')")
+    public String adminAccess(@Valid @RequestBody AccessRequest accessRequest) {
+        return service.admin(accessRequest);
     }
 
     @GetMapping("/titles")
     public List<IdAndTitle> getTitles() {
-        return titlesRepository.findAllTitles();
+        return service.getTitles();
     }
 
     @GetMapping("/series/{id}")
-    public List<Titles> getFollowingSeries(@PathVariable int id) {
-        return titlesRepository.findById(id);
+    public Titles getFollowingSeries(@PathVariable int id) {
+        return service.getFollowingSeries(id);
     }
 
     @GetMapping("/streams")
     public List<Streams> getStreams() {
-        return streamsRepository.findAll();
+        return service.getStreams();
     }
 }

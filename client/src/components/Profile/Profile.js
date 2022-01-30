@@ -12,6 +12,8 @@ class Profile extends Component {
 
     render() {
         const { currentUser } = this.state;
+        console.log("currentUser:", currentUser);
+        console.log("try to use: currentUser.username, currentUser.id, currentUser.roles");
 
         if (currentUser) {
             return (
@@ -23,8 +25,7 @@ class Profile extends Component {
                     </header>
                     <p>
                         <strong>Token:</strong>{" "}
-                        {currentUser.accessToken.substring(0, 20)} ...{" "}
-                        {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
+                        {currentUser.password}
                     </p>
                     <p>
                         <strong>Id:</strong>{" "}
@@ -33,7 +34,7 @@ class Profile extends Component {
                     <strong>Authorities:</strong>
                     <ul>
                         {currentUser.roles &&
-                            currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
+                            currentUser.roles.map((role, index) => <li key={index}>{role.name}</li>)}
                     </ul>
                 </div>
             );
