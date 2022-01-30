@@ -12,6 +12,8 @@ import com.donaldo.site.backend.server.repository.UserRepository;
 import com.donaldo.site.backend.server.security.jwt.JwtUtils;
 
 import com.donaldo.site.backend.server.security.services.UserDetailsImpl;
+import com.donaldo.site.backend.server.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,79 +37,24 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/spring/auth")
 public class AuthController {
-    final AuthenticationManager authenticationManager;
-    final UserRepository userRepository;
-    final RoleRepository roleRepository;
-    final PasswordEncoder encoder;
-    final JwtUtils jwtUtils;
+    private final AuthService authService;
 
-    public AuthController(final AuthenticationManager authenticationManager,
-                          final UserRepository userRepository, final RoleRepository roleRepository,
-                          final PasswordEncoder encoder, final JwtUtils jwtUtils) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.encoder = encoder;
-        this.jwtUtils = jwtUtils;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/signin")
     public ResponseEntity<?> authUser(@Valid @RequestBody LoginRequest loginRequest) {
-        final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        final String jwt = jwtUtils.generateJwtToken(authentication);
-
-        final UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        final List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        System.out.println("Logged in user: " + loginRequest.getUsername());
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                                                 userDetails.getId(), userDetails.getUsername(),
-                                                 roles));
+        return ResponseEntity.ok(authService.authUser(loginRequest));
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
-        if (userRepository.existsByUsername(signupRequest.getUsername())) {
-            return ResponseEntity.badRequest().body(
-                    new MessageResponse("User with name '" + signupRequest.getUsername() + "' is already exists")
-            );
-        }
-
-        // create new account
-        final User user = new User(signupRequest.getUsername(), encoder.encode(signupRequest.getPassword()));
-        final Set<String> getRoles = signupRequest.getRole();
-        final Set<Role> roles = new HashSet<>();
-        if (getRoles == null) {
-            final Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("ROLE_USER couldn't be found"));
-            roles.add(userRole);
+        final MessageResponse response = authService.registerUser(signupRequest);
+        if (response.getMessage().endsWith("already exists")) {
+            return ResponseEntity.badRequest().body(response);
         } else {
-            getRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        final Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("ROLE_ADMIN couldn't be found"));
-                        roles.add(adminRole);
-
-                    case "user":
-                        final Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("ROLE_USER couldn't be found"));
-                        roles.add(userRole);
-
-                    default:
-                        throw new RuntimeException("Unexpected role " + role);
-                }
-            });
+            return ResponseEntity.ok(response);
         }
-
-        user.setRoles(roles);
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("User registered!"));
     }
 }

@@ -5,52 +5,52 @@ import com.donaldo.site.backend.server.models.Titles;
 import com.donaldo.site.backend.server.models.projections.IdAndTitle;
 import com.donaldo.site.backend.server.repository.StreamsRepository;
 import com.donaldo.site.backend.server.repository.TitlesRepository;
+import com.donaldo.site.backend.server.service.TestService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/spring/test")
 public class TestController {
-    final TitlesRepository titlesRepository;
-    final StreamsRepository streamsRepository;
+    private final TestService testService;
 
-    public TestController(final TitlesRepository titlesRepository, final StreamsRepository streamsRepository) {
-        this.titlesRepository = titlesRepository;
-        this.streamsRepository = streamsRepository;
+    public TestController(final TestService testService) {
+        this.testService = testService;
     }
 
     @GetMapping("/all")
     public String allAccess() {
-        return "Public Content.";
+        return testService.all();
     }
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public String userAccess() {
-        return "User Content.";
+        return testService.user();
     }
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
-        return "Admin Board.";
+        return testService.admin();
     }
 
     @GetMapping("/titles")
     public List<IdAndTitle> getTitles() {
-        return titlesRepository.findAllTitles();
+        return testService.getTitles();
     }
 
     @GetMapping("/series/{id}")
-    public List<Titles> getFollowingSeries(@PathVariable int id) {
-        return titlesRepository.findById(id);
+    public Titles getFollowingSeries(@PathVariable int id) {
+        return testService.getFollowingSeries(id);
     }
 
     @GetMapping("/streams")
     public List<Streams> getStreams() {
-        return streamsRepository.findAll();
+        return testService.getStreams();
     }
 }

@@ -3,7 +3,6 @@ package com.donaldo.site.backend.server.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 

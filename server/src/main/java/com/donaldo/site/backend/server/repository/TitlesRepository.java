@@ -8,11 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TitlesRepository extends JpaRepository<Titles, Long> {
     @Query("select new com.donaldo.site.backend.server.models.projections.IdAndTitle(p.id, p.title) from Titles p")
     List<IdAndTitle> findAllTitles();
 
-    List<Titles> findById(final int id);
+    Optional<Titles> findById(final int id);
 }
