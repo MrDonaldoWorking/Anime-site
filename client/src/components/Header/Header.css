@@ -1,6 +1,6 @@
 .App-header {
   background-color: #282c34;
-  min-height: 2.5rem;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -18,8 +18,7 @@
   height: 2rem;
 }
 
-.User,
-.Profile {
+.User {
   width: 15rem;
 }
 
@@ -31,8 +30,7 @@
   width: 15rem;
 }
 
-.Enter a,
-.Profile a {
+.Enter * {
   color: #d7d3cb;
   text-decoration: none;
   border: 1px dotted #d7d3cb;
