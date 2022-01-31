@@ -8,7 +8,7 @@ on:
     branches: [ HW3 ]
 
 jobs:
-  build-frontend:
+  test-frontend:
     runs-on: ubuntu-latest
     
     steps:
@@ -21,6 +21,6 @@ jobs:
       - name: Install dependencies
         run: npm --prefix client install
       - name: Run unit tests
-        run: npm --prefix client src/test/unit
+        run: npm --prefix client test src/test/unit
       - name: Run e2e tests
         run: npm --prefix client run e2e
