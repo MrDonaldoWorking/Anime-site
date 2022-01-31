@@ -16,7 +16,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "e2e": "cd playwright && jest",
+    "start-daemon": "npm start &",
+    "e2e": "npm run start-daemon && sleep 100 && npm test src/test/e2e",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

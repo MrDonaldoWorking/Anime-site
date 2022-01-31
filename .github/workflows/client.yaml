@@ -20,11 +20,7 @@ jobs:
           cache-dependency-path: client/package-lock.json
       - name: Install dependencies
         run: npm --prefix client install
-#       - name: Install playwright
-#         run: npx install playwright
-      - name: Start deployment
-        run: npm --prefix client start
       - name: Run unit tests
         run: npm --prefix client src/test/unit
       - name: Run e2e tests
-        run: npm --prefix client src/test/e2e
+        run: npm --prefix client run e2e
