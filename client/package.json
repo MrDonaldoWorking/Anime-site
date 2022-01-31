@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider; gatsby build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "start-daemon": "npm start &",
     "e2e": "npm run start-daemon && sleep 30 && npm test src/test/e2e",
