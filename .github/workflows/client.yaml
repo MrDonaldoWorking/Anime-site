@@ -32,7 +32,7 @@ jobs:
         run: npm --prefix client ci
         
       - name: Build
-        run: npm --prefix client build
+        run: npm --prefix client run build
 
       - name: Run tests
         run: npm --prefix client run test
