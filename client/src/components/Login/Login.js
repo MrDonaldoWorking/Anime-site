@@ -1,151 +1,62 @@
-import React, { Component } from 'react';
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+import React, { useState, useEffect, useRef } from 'react';
+import './Login.css';
+import bcrypt from 'bcryptjs';
 
-import SessionService from "../../service/session.service";
-import Validate from "../../payload/validate";
+function Login() {
+    const [user, setUser] = useState({});
 
-import "./Login.css";
-
-class Login extends Component {
-    constructor (props) {
-        super(props);
-        this.handleLogin = this.handleLogin.bind(this);
-        this.onChangeUsername = this.onChangeUsername.bind(this);
-        this.onChangePassword = this.onChangePassword.bind(this);
-
-        this.state = {
-            username: "",
-            password: "",
-            loading: false,
-            message: ""
-        };
-    }
-
-    onChangeUsername(e) {
-        this.setState({
-            username: e.target.value
-        });
-    }
-
-    onChangePassword(e) {
-        this.setState({
-            password: e.target.value
-        });
-    }
-
-    handleLogin(e) {
-        e.preventDefault();
-
-        this.setState({
-            message: "",
-            loading: true
-        });
-
-        this.form.validateAll();
-
-        // If the verification is ok, then login
-        if (this.checkBtn.context._errors.length === 0) {
-            SessionService.login(this.state.username, this.state.password).then(
-                () => {
-                    // this.props.history.push("/profile");
-                    // window.location.reload();
-                    window.location = "/profile";
-                },
-                error => {
-                    const resMessage = (
-                        error.response &&
-                        error.response.data &&
-                        error.response.data.message
-                    ) || error.message
-                    || error.toString();
-                    console.log("error is", error);
-                    console.log("error type = ", typeof(error));
-
-                    this.setState({
-                        loading: false,
-                        message: resMessage
-                    });
-                }
-            );
-        } else {
-            this.setState({
-                loading: false
-            });
+    useEffect(() => {
+        const fetchResult = async () => {
+            fetch('/express/user')
+                .then(res => res.json())
+                .then(res => setUser(res));
         }
+        fetchResult();
+    }, [user.id]);
+
+    const loginRef = useRef();
+    // const passwordRef = useRef();
+
+    function handleLoginForm() {
+        const login = loginRef.current.value;
+        // const password = passwordRef.current.value;
+        // const hashedPassword = bcrypt.hashSync(password, 'VeryStrongSalt!');
+
+        fetch('/express/login', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              login: login,
+            //   password: hashedPassword,
+            })
+        });
     }
-
-    render() {
-        return (
-            <div className="col-md-12">
-                <div className="card card-container">
-                    <img
-                        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                        alt="profile-img"
-                        className="profile-img-card"
-                    />
-
-                    <Form
-                        onSubmit={this.handleLogin}
-                        ref={c => {
-                            this.form = c;
-                        }}
-                    >
-                        <div className="form-group">
-                            <label htmlFor="username">Username</label>
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="username"
-                                value={this.state.username}
-                                onChange={this.onChangeUsername}
-                                validations={[Validate.required]}
-                            />
-                        </div>
-            
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <Input
-                                type="password"
-                                className="form-control"
-                                name="password"
-                                value={this.state.password}
-                                onChange={this.onChangePassword}
-                                validations={[Validate.required]}
-                            />
-                        </div>
-            
-                        <div className="form-group">
-                            <button
-                                className="btn btn-primary btn-block"
-                                disabled={this.state.loading}
-                            >
-                                {this.state.loading && (
-                                    <span className="spinner-border spinner-border-sm"></span>
-                                )}
-                                <span>Login</span>
-                            </button>
-                        </div>
-            
-                        {this.state.message && (
-                            <div className="form-group">
-                                <div className="alert alert-danger" role="alert">
-                                    {this.state.message}
-                                </div>
-                            </div>
-                        )}
-                        <CheckButton
-                            style={{ display: "none" }}
-                            ref={c => {
-                                this.checkBtn = c;
-                            }}
-                        />
-                    </Form>
+    
+    if (user.id !== undefined) {
+        return <p>Welcome back, {user.name}!</p>
+    }
+    return (
+        <div className="Login">
+            <form>
+                <div>
+                    <p>Login: </p>
+                    <input type="text" name="login" ref={loginRef}/>
                 </div>
-            </div>
-        );
-    }
+                {/* <div>
+                    <p>Password: </p>
+                    <input type="password" name="password" ref={passwordRef}/>
+                </div> */}
+                <div>
+                    <button type="submit" onClick={() => handleLoginForm()}>
+                        Login
+                    </button>
+                </div>
+            </form>
+        </div>
+    );
 }
 
 export default Login;
