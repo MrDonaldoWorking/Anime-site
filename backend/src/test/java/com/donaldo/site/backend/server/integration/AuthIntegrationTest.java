@@ -61,7 +61,7 @@ public class AuthIntegrationTest {
         final ResponseEntity<?> signUpResponse = restTemplate.postForEntity(
                 SERVER_URL + ":" + port + "/spring/auth/signup",
                 signupRequest,
-                ResponseEntity.class
+                String.class
         );
         Assertions.assertEquals(HttpStatus.OK, signUpResponse.getStatusCode());
 
@@ -75,7 +75,7 @@ public class AuthIntegrationTest {
                 SERVER_URL + ":" + port + "/spring/auth/signin",
                 HttpMethod.POST,
                 new HttpEntity(loginRequest, cookieHeaders),
-                ResponseEntity.class
+                User.class
         );
 
         Assertions.assertEquals(HttpStatus.OK, signInResponse.getStatusCode());

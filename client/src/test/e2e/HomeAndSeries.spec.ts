@@ -9,7 +9,7 @@ describe('Home and Series', () => {
 
     beforeAll(async () => {
         jest.setTimeout(30000);
-        browser = await chromium.launch({ headless: false });
+        browser = await chromium.launch({ headless: true });
         page = await browser.newPage();
     });
 
