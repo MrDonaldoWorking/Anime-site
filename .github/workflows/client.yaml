@@ -26,10 +26,10 @@ jobs:
         with:
           node-version: '16.13.2'
           cache: 'npm'
-          cache-dependency-path: client/package-lock.json
+          cache-dependency-path: ./client/package-lock.json
         
       - name: Clear install
-        run: npm --prefix client ci
+        run: npm --prefix client ci && npx playwright install && npx playwright install-deps
         
       - name: Build
         run: npm --prefix client run build
