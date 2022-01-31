@@ -12,32 +12,23 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      
-      - name: Build containers
-        run: docker-compose build
-    
-      - name: Up containers
-        run: docker-compose up -d
-    
-      - name: Install node
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
         with:
-          node-version: '16.13.2'
+          node-version: '16.x'
           cache: 'npm'
           cache-dependency-path: ./client/package-lock.json
-        
-      - name: Clear install
-        run: npm --prefix client ci && npx playwright install && npx playwright install-deps
-        
-      - name: Build
-        run: npm --prefix client run build
 
-      - name: Run tests
-        run: npm --prefix client run test
+      - name: Install dependencies
+        run: npm install && npx playwright install && npx playwright install-deps
+        working-directory: ./client
 
-      - name: Stop containers
-        if: always()
-        run: docker-compose down
+      - name: Install playwright
+        run: npx --prefix client playwright install
 
+      - name: Run unit tests
+        run: npm --prefix client test src/test/unit
+
+      - name: Run e2e tests
+        run: npm --prefix client run e2e

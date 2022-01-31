@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.*;
@@ -23,8 +24,7 @@ import javax.validation.constraints.NotNull;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = AuthIntegrationTest.Initializer.class)
 public class AuthIntegrationTest {
-    public static final int PORT = 30030;
-    public static final String SERVER_URL = "http://localhost:5000";
+    public static final String SERVER_URL = "http://localhost";
 
     public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
@@ -43,6 +43,9 @@ public class AuthIntegrationTest {
         }
     }
 
+    @LocalServerPort
+    private int port = 0;
+
     @Autowired
     private RestTemplateBuilder restTemplateBuilder;
 
@@ -56,7 +59,7 @@ public class AuthIntegrationTest {
         signupRequest.setUsername(ghislane.getUsername());
         signupRequest.setPassword(ghislane.getPassword());
         final ResponseEntity<?> signUpResponse = restTemplate.postForEntity(
-                SERVER_URL + "/spring/auth/signup",
+                SERVER_URL + ":" + port + "/spring/auth/signup",
                 signupRequest,
                 ResponseEntity.class
         );
@@ -69,7 +72,7 @@ public class AuthIntegrationTest {
         loginRequest.setUsername(ghislane.getUsername());
         loginRequest.setPassword(ghislane.getPassword());
         final ResponseEntity<?> signInResponse = restTemplate.exchange(
-                SERVER_URL + "/spring/auth/signin",
+                SERVER_URL + ":" + port + "/spring/auth/signin",
                 HttpMethod.POST,
                 new HttpEntity(loginRequest, cookieHeaders),
                 ResponseEntity.class
