@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.donaldo</groupId>
-    <artifactId>sticker</artifactId>
+    <groupId>com.donaldo.site.backend</groupId>
+    <artifactId>anime</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 

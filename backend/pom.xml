@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.donaldo.site.backend</groupId>
-	<artifactId>server</artifactId>
+	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>server</name>
-	<description>server</description>
+	<name>backend</name>
+	<description>backend</description>
 	<properties>
 		<java.version>11</java.version>
 		<testcontainers.version>1.16.0</testcontainers.version>
