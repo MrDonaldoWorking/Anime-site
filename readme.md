@@ -12,7 +12,9 @@
 * Integration test
 
 ## Github Action
-*In progress..*
+Automatic test on push or pull request
+- [x] Client
+- [x] Server
 
 # Links
 
