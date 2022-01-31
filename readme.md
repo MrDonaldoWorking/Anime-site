@@ -1,8 +1,8 @@
 # Run
 
 ## Client
-* `cd client`
-* `npm start`
+* Unit test
+* E2E test (playwright)
 
 ## Server
 * Spring
